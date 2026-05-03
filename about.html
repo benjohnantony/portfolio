@@ -1,0 +1,1403 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About — Ben Antony</title>
+<meta name="description" content="Ben Antony — Product Designer. Work experience, selected clients, and design philosophy." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #0B0B0B;
+    --ink: #F2EDE4;
+    --muted: rgba(242,237,228,0.55);
+    --muted-soft: rgba(242,237,228,0.75);
+    --accent: #FF4D1F;
+    --rule: rgba(242,237,228,0.14);
+    --rule-strong: rgba(242,237,228,0.28);
+    --grid: rgba(242,237,228,0.04);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); scroll-behavior: smooth; }
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; color: inherit; background: none; border: none; padding: 0; cursor: pointer; }
+  ::selection { background: var(--accent); color: #0a0a0a; }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.45'/></svg>");
+    mix-blend-mode: overlay;
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 100;
+  }
+  /* Grid background */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 96px 96px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Corner crosshairs */
+  .mark { position: fixed; width: 18px; height: 18px; z-index: 5; pointer-events: none; }
+  .mark::before, .mark::after { content: ''; position: absolute; background: var(--ink); opacity: 0.7; }
+  .mark::before { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-0.5px); }
+  .mark::after  { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-0.5px); }
+  .mark.tl { top: 24px; left: 24px; }
+  .mark.tr { top: 24px; right: 24px; }
+  .mark.bl { bottom: 24px; left: 24px; }
+  .mark.br { bottom: 24px; right: 24px; }
+
+  .page {
+    position: relative;
+    padding: 56px 64px 0 64px;
+    z-index: 1;
+  }
+
+  /* Top rail */
+  .rail {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .rail .l { text-align: left; }
+  .rail .l .home { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+  .rail .l .home:hover { color: var(--accent); }
+  .rail .c { text-align: center; }
+  .rail .r { text-align: right; display: inline-flex; gap: 16px; justify-content: flex-end; align-items: center; }
+  .rail b { color: var(--ink); font-weight: 700; letter-spacing: 0.06em; }
+  .rail .close {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--ink);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .rail .close:hover { border-color: var(--ink); }
+  .rail .close .x {
+    width: 12px; height: 12px; position: relative; display: inline-block;
+  }
+  .rail .close .x::before, .rail .close .x::after {
+    content: ''; position: absolute; top: 50%; left: 0; right: 0;
+    height: 1.5px; background: currentColor;
+  }
+  .rail .close .x::before { transform: rotate(45deg); }
+  .rail .close .x::after  { transform: rotate(-45deg); }
+  .rail .kbd {
+    display: inline-block;
+    padding: 2px 7px;
+    border: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+  }
+
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 56px 0 0;
+    min-height: calc(100vh - 112px);
+    min-height: calc(100svh - 112px);
+  }
+  .hero-top {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: center;
+  }
+
+  /* Hero clients ticker — pinned to the bottom edge of the hero */
+  .hero-clients { align-self: end; }
+  .hero .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 36px;
+    display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap;
+  }
+  .hero .eyebrow .num { color: var(--accent); font-weight: 700; }
+  .hero .title {
+    font-weight: 700;
+    font-size: clamp(64px, 13vw, 208px);
+    line-height: 0.86;
+    letter-spacing: -0.045em;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .hero .title .row { display: block; }
+  .hero .title .row.sub {
+    font-size: clamp(28px, 4.5vw, 72px);
+    letter-spacing: -0.03em;
+    margin-top: 16px;
+    color: var(--muted-soft);
+  }
+  .hero .title .dot { color: var(--accent); }
+
+  /* Narrative intro (replaces oversized name) */
+  .hero .intro {
+    font-weight: 700;
+    font-size: clamp(32px, 4.8vw, 80px);
+    line-height: 1.06;
+    letter-spacing: -0.035em;
+    margin: 0;
+    color: var(--muted-soft);
+    max-width: 1280px;
+  }
+  .hero .intro .dim { color: var(--muted); font-weight: 500; }
+  .hero .intro .hl {
+    color: var(--ink);
+    position: relative;
+    display: inline-block;
+    padding: 0 2px;
+    white-space: nowrap;
+  }
+  .hero .intro .hl::before {
+    content: '';
+    position: absolute;
+    left: -2px; right: -2px; bottom: 0.08em; height: 4px;
+    background: var(--accent);
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.8s cubic-bezier(.2,.7,.2,1) var(--d, 0s);
+    z-index: -1;
+  }
+  .hero.in-view .intro .hl::before { transform: scaleX(1); }
+  .hero .intro .hl:hover { color: var(--accent); }
+  .hero .role-lockup {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding: 6px 12px 7px;
+    border: 1px solid var(--rule-strong);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .hero .role-lockup .dot-live {
+    width: 6px; height: 6px; background: var(--accent);
+    display: inline-block;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  .hero-foot {
+    margin-top: 36px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 12px;
+    align-items: center;
+  }
+  .hero-foot .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border: 1px solid var(--rule-strong);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hero-foot .tag.solid {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0a0a0a;
+  }
+  .hero-foot .tag .mini {
+    width: 6px; height: 6px; background: var(--accent);
+    display: inline-block;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  .hero-foot .tag.solid .mini { background: #0a0a0a; animation: none; }
+
+  .portrait {
+    width: 260px;
+    max-width: 28vw;
+    border: 1px solid var(--rule-strong);
+    position: relative;
+    align-self: center;
+  }
+  .portrait .frame {
+    aspect-ratio: 4 / 5;
+    background: #111 url('assets/ben-portrait.jpg') center/cover no-repeat;
+    filter: grayscale(1) contrast(1.05);
+  }
+  .portrait .caption {
+    padding: 10px 12px;
+    border-top: 1px solid var(--rule-strong);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .portrait .caption .dot {
+    width: 6px; height: 6px; background: var(--accent);
+    display: inline-block;
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.35 } }
+
+  /* Stats */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-bottom: 1px solid var(--rule);
+  }
+  .stats .cell {
+    padding: 22px 28px;
+    border-right: 1px solid var(--rule);
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .stats .cell:last-child { border-right: none; }
+  .stats .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .stats .v {
+    font-size: clamp(28px, 3.6vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+  .stats .v .unit { color: var(--accent); font-size: 0.55em; letter-spacing: 0; margin-left: 4px; }
+
+  /* Social row */
+  .socials-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .socials-row .label { color: var(--muted); }
+  .socials-row .links { display: flex; gap: 28px; flex-wrap: wrap; }
+  .socials-row .links a {
+    color: var(--ink);
+    border-bottom: 1px solid transparent;
+    transition: color 0.2s ease, border-color 0.2s ease;
+  }
+  .socials-row .links a:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* Section head */
+  .section-head {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    align-items: end;
+    padding: 72px 0 32px;
+  }
+  .section-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .section-head .h {
+    font-size: clamp(32px, 4.5vw, 64px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .section-head .h .hl { color: var(--accent); }
+  .section-head .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* Accordion list */
+  .list { border-top: 1px solid var(--rule-strong); }
+  .item {
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .item-head {
+    display: grid;
+    grid-template-columns: 60px 1fr auto auto;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 0;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    transition: background 0.25s ease, padding 0.25s ease;
+  }
+  .item-head:hover { background: rgba(255,77,31,0.06); padding-left: 16px; padding-right: 16px; }
+  .item-head .idx {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+  .item-head .title {
+    font-size: clamp(22px, 2.2vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .item-head .title .sub {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+  .item-head .dates {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .item-head .dates .arr { color: var(--accent); margin: 0 6px; }
+  .item-head .toggle {
+    width: 40px; height: 40px;
+    border: 1px solid var(--rule-strong);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.25s ease;
+  }
+  .item[aria-expanded="true"] .toggle {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0a0a0a;
+  }
+  .item[aria-expanded="true"] .toggle .sign { transform: rotate(45deg); display: inline-block; }
+  .toggle .sign { display: inline-block; transition: transform 0.3s ease; }
+
+  .item-body {
+    padding-left: 84px;
+    padding-right: 56px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+  }
+  .item[aria-expanded="true"] .item-body {
+    max-height: 6000px;
+    opacity: 1;
+    padding-bottom: 32px;
+    padding-top: 8px;
+  }
+  .item-body p {
+    margin: 0 0 14px;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--muted-soft);
+    max-width: 780px;
+  }
+  .item-body strong, .item-body .bold {
+    font-weight: 700;
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid var(--rule-strong);
+    margin-right: 8px;
+  }
+  .item-body ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 18px;
+    max-width: 780px;
+  }
+  .item-body ul li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--muted-soft);
+    padding-left: 24px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .item-body ul li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+  .item-body .sub-divider {
+    height: 1px;
+    background: var(--rule);
+    margin: 20px 0;
+    max-width: 780px;
+  }
+
+  /* Quote / Philosophy carousel */
+  .quote {
+    padding: 0;
+    border-bottom: 1px solid var(--rule);
+    min-height: 100vh;
+    min-height: 100svh;
+    position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  .quote .mark-q {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin: 88px 0 0;
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .quote .mark-q::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--rule);
+  }
+  .quote-stack {
+    align-self: center;
+    display: grid;
+    grid-template-areas: "stack";
+    width: 100%;
+  }
+  .quote-slide {
+    grid-area: stack;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.6s cubic-bezier(.2,.7,.2,1),
+                visibility 0s linear 0.6s;
+    pointer-events: none;
+    will-change: opacity;
+  }
+  .quote-slide.is-active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.6s cubic-bezier(.2,.7,.2,1),
+                visibility 0s linear 0s;
+    pointer-events: auto;
+  }
+  .quote-slide blockquote {
+    font-size: clamp(28px, 4vw, 56px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    margin: 0;
+    max-width: 1280px;
+    cursor: none;
+  }
+  /* Per-word reveal */
+  .quote-slide .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(22px);
+    filter: blur(6px);
+    transition: opacity 0.7s cubic-bezier(.2,.7,.2,1),
+                transform 0.7s cubic-bezier(.2,.7,.2,1),
+                filter 0.7s cubic-bezier(.2,.7,.2,1),
+                color 0.2s ease;
+    transition-delay: var(--d, 0s);
+    will-change: transform, opacity, filter;
+  }
+  .quote-slide.is-active .word {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+  /* Hover lift per word */
+  .quote-slide .word:hover {
+    transform: translateY(-4px);
+    color: var(--accent);
+    transition-duration: 0.25s, 0.25s, 0.25s, 0.2s;
+  }
+  .quote-slide .hl {
+    color: var(--ink);
+    position: relative;
+    display: inline-block;
+    padding: 0 4px;
+  }
+  .quote-slide .hl::before {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; top: 0.08em; bottom: 0.12em;
+    background: var(--accent);
+    z-index: -1;
+    transform-origin: left;
+    transform: scaleX(0);
+    transition: transform 0.8s cubic-bezier(.2,.7,.2,1) var(--hl-delay, 0.6s);
+  }
+  .quote-slide.is-active .hl::before { transform: scaleX(1); }
+  .quote-slide .hl:hover::before { background: var(--ink); }
+  .quote-slide .hl:hover { color: var(--accent); }
+  .quote-slide .hl .word { color: inherit; }
+  .quote-slide .hl .word:hover { color: inherit; transform: translateY(-4px); }
+  .quote-slide .sig {
+    margin-top: 56px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .quote-nav {
+    margin: 0 0 88px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .quote-nav .dots { display: inline-flex; gap: 10px; }
+  .quote-nav .dot {
+    width: 28px; height: 2px; background: var(--rule-strong);
+    display: inline-block; padding: 0; border: 0;
+    cursor: pointer; transition: background 0.4s ease, width 0.4s ease;
+  }
+  .quote-nav .dot:hover { background: var(--muted); }
+  .quote-nav .dot.is-active { background: var(--accent); width: 56px; }
+  .quote-nav .counter b { color: var(--ink); font-weight: 700; letter-spacing: 0.08em; }
+
+  /* Clients */
+  .clients-head .meta span::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    margin-right: 8px;
+    vertical-align: 2px;
+  }
+
+  /* Closer (thanks) */
+  .closer {
+    padding: 120px 0 64px;
+    text-align: left;
+    position: relative;
+    border-top: 1px solid var(--rule);
+  }
+  .closer .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 36px;
+  }
+  .closer .eyebrow .num { color: var(--accent); font-weight: 700; }
+  .closer .closer-title {
+    font-weight: 700;
+    font-size: clamp(56px, 10vw, 152px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    margin: 0;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+  .closer .closer-title .dot { color: var(--accent); }
+  .closer .mail {
+    margin-top: 32px;
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .closer .mail .k { color: var(--muted); }
+  .closer .mail a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 2px;
+    transition: color 0.2s ease;
+  }
+  .closer .mail a:hover { color: var(--accent); }
+
+  /* Ticker */
+  .ticker {
+    margin: 0 -64px;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+    padding: 20px 0;
+    background: rgba(242,237,228,0.02);
+  }
+  .ticker-track {
+    display: flex;
+    white-space: nowrap;
+    animation: marquee 32s linear infinite;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    will-change: transform;
+  }
+  .ticker-track .chunk { display: inline-flex; align-items: center; gap: 48px; padding-right: 48px; }
+  .ticker-track .star { color: var(--accent); font-weight: 700; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* Footer */
+  .foot {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    padding: 24px 0 28px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .foot a { color: var(--ink); border-bottom: 1px solid transparent; transition: border-color 0.2s ease, color 0.2s ease; }
+  .foot a:hover { color: var(--accent); border-color: var(--accent); }
+  .foot .socials { display: flex; gap: 24px; justify-content: flex-end; flex-wrap: wrap; }
+
+  /* Back-to-top */
+  .totop {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 6;
+    width: 48px; height: 48px;
+    border: 1px solid var(--rule-strong);
+    background: var(--bg);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 16px;
+    font-weight: 700;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .totop.on { opacity: 1; transform: translateY(0); }
+  .totop:hover { background: var(--accent); border-color: var(--accent); color: #0a0a0a; }
+
+  /* Custom cursor */
+  @media (pointer: fine) {
+    html, body, a, button { cursor: none; }
+  }
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 200;
+    mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+    mix-blend-mode: normal;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--ink);
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+    transition: width 0.28s cubic-bezier(0.2,0.8,0.2,1),
+                height 0.28s cubic-bezier(0.2,0.8,0.2,1),
+                background 0.2s ease,
+                border-color 0.2s ease;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cursor-ring .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #0a0a0a;
+    opacity: 0;
+    transition: opacity 0.15s ease 0.05s;
+    white-space: nowrap;
+  }
+  body.c-link .cursor-ring {
+    width: 56px; height: 56px;
+    border-color: var(--accent);
+  }
+  body.c-link .cursor-dot { width: 4px; height: 4px; }
+  body.c-block .cursor-ring {
+    width: 96px; height: 96px;
+    background: var(--accent);
+    border-color: var(--accent);
+    mix-blend-mode: normal;
+  }
+  body.c-block .cursor-ring .label { opacity: 1; }
+  body.c-block .cursor-dot { opacity: 0; }
+  body.c-press .cursor-ring { width: 24px; height: 24px; }
+  @media (pointer: coarse) {
+    .cursor-dot, .cursor-ring { display: none; }
+  }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .hero { grid-template-columns: 1fr; }
+    .portrait { width: 220px; max-width: 50vw; justify-self: start; }
+  }
+  @media (max-width: 1024px) {
+    .page { padding: 44px 28px 0; }
+    .ticker { margin: 0 -28px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .stats .cell:nth-child(2) { border-right: none; }
+    .stats .cell:nth-child(1), .stats .cell:nth-child(2) { border-bottom: 1px solid var(--rule); }
+    .item-head { grid-template-columns: 44px 1fr auto; padding: 22px 0; }
+    .item-head .dates { grid-column: 2 / 3; font-size: 10px; margin-top: 8px; }
+    .item-head .toggle { grid-column: 3 / 4; grid-row: 1 / 3; align-self: center; }
+    .item-body { padding-left: 52px; padding-right: 0; }
+  }
+  @media (max-width: 640px) {
+    .page { padding: 32px 20px 0; }
+    .ticker { margin: 0 -20px; padding: 14px 0; }
+    .ticker-track { font-size: 12px; }
+    .rail { grid-template-columns: 1fr auto; }
+    .rail .c { display: none; }
+    .hero { padding: 40px 0; min-height: calc(100vh - 88px); min-height: calc(100svh - 88px); }
+    .hero-top { grid-template-columns: 1fr; gap: 24px; }
+    .hero .eyebrow { margin-bottom: 24px; }
+    .hero .intro { font-size: clamp(26px, 6.2vw, 44px); line-height: 1.12; }
+    .hero .intro .hl { white-space: normal; }
+    .hero .role-lockup { font-size: 10px; letter-spacing: 0.16em; }
+    .hero-foot { margin-top: 24px; gap: 8px; }
+    .hero-foot .tag { padding: 7px 10px; font-size: 9px; letter-spacing: 0.14em; }
+    .hero-clients { margin-top: 24px; }
+    .portrait { width: 160px; }
+    .section-head { grid-template-columns: 1fr; gap: 8px; padding: 56px 0 24px; }
+    .section-head .meta { text-align: left; }
+    .stats { grid-template-columns: 1fr; }
+    .stats .cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .stats .cell:last-child { border-bottom: none; }
+    .item-head { grid-template-columns: 28px 1fr auto; gap: 16px; }
+    .item-body { padding-left: 0; }
+    .item-body strong, .item-body .bold { font-size: 10px; }
+    .quote { min-height: calc(100vh - 88px); min-height: calc(100svh - 88px); }
+    .quote .mark-q { margin: 56px 0 0; }
+    .quote-slide .sig { margin-top: 32px; }
+    .quote-nav { margin: 0 0 56px; flex-direction: column; align-items: flex-start; gap: 16px; }
+    .closer { padding: 80px 0 48px; }
+    .foot { grid-template-columns: 1fr; gap: 16px; padding: 18px 0 22px; }
+    .foot .socials { justify-content: flex-start; }
+    .socials-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .socials-row .links { gap: 18px; }
+    .mark { width: 12px; height: 12px; }
+    .mark.tl, .mark.tr { top: 12px; }
+    .mark.bl, .mark.br { bottom: 12px; }
+    .mark.tl, .mark.bl { left: 12px; }
+    .mark.tr, .mark.br { right: 12px; }
+    .totop { right: 14px; bottom: 14px; width: 40px; height: 40px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; }
+    .portrait .caption .dot { animation: none; }
+    html, body { scroll-behavior: auto; }
+  }
+</style>
+<script>try{if(sessionStorage.getItem('pt-light')){document.documentElement.classList.add('pt-light');sessionStorage.removeItem('pt-light');setTimeout(function(){document.documentElement.classList.remove('pt-light');},850);}}catch(e){}</script>
+<link rel="stylesheet" href="assets/transition.css" />
+</head>
+<body id="top">
+  <div class="page-transition intro" aria-hidden="true"></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"><span class="label">Open ↗</span></div>
+
+  <span class="mark tl" aria-hidden="true"></span>
+  <span class="mark tr" aria-hidden="true"></span>
+  <span class="mark bl" aria-hidden="true"></span>
+  <span class="mark br" aria-hidden="true"></span>
+
+  <div class="page">
+    <!-- Top rail -->
+    <header class="rail">
+      <div class="l"><b>Ben Antony</b> &nbsp;/&nbsp; <a class="home" href="index.html">Portfolio</a></div>
+      <div class="c">Index 02 / 04 &nbsp;—&nbsp; About</div>
+      <div class="r">
+        <span class="kbd">ESC</span>
+        <a href="index.html" class="close" aria-label="Close and return to home">
+          <span>Close</span>
+          <span class="x" aria-hidden="true"></span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero" id="hero">
+      <div class="hero-top">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span class="num">✱ N°002 — Hello</span>
+          </div>
+          <h1 class="intro">
+            <span class="dim">A decade</span> crafting digital products for <span class="hl">50M+ people</span> across <span class="hl">telecom</span>, <span class="hl">fintech</span>, <span class="hl">e‑commerce</span>, and <span class="hl">edtech</span>.
+          </h1>
+        </div>
+        <figure class="portrait" aria-label="Portrait of the designer">
+          <div class="frame" role="img" aria-label="Portrait"></div>
+          <figcaption class="caption">
+            <span>File · Portrait_2026.jpg</span>
+            <span><span class="dot"></span>Live</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Tools marquee — what I work with -->
+      <div class="ticker hero-clients" aria-label="Tools I use">
+        <div class="ticker-track">
+          <span class="chunk">Figma <span class="star">✱</span> Claude <span class="star">✱</span> Notion <span class="star">✱</span> Jira <span class="star">✱</span> Adobe Illustrator <span class="star">✱</span> Adobe Photoshop <span class="star">✱</span> Zeplin <span class="star">✱</span> Sketch <span class="star">✱</span> Adobe XD <span class="star">✱</span> Framer <span class="star">✱</span> Lottie <span class="star">✱</span> ChatGPT <span class="star">✱</span> Midjourney <span class="star">✱</span> FigJam <span class="star">✱</span></span>
+          <span class="chunk">Figma <span class="star">✱</span> Claude <span class="star">✱</span> Notion <span class="star">✱</span> Jira <span class="star">✱</span> Adobe Illustrator <span class="star">✱</span> Adobe Photoshop <span class="star">✱</span> Zeplin <span class="star">✱</span> Sketch <span class="star">✱</span> Adobe XD <span class="star">✱</span> Framer <span class="star">✱</span> Lottie <span class="star">✱</span> ChatGPT <span class="star">✱</span> Midjourney <span class="star">✱</span> FigJam <span class="star">✱</span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Work Experience -->
+    <section id="work">
+      <header class="section-head">
+        <div class="num">✱ S/01</div>
+        <h2 class="h"><span class="hl">Work</span> Experience</h2>
+        <div class="meta">07 Roles · 2015 — Present</div>
+      </header>
+
+      <div class="list">
+        <!-- 01 -->
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[01]</span>
+            <span class="title">Senior Product Designer at Neokred<span class="sub">Bangalore, India</span></span>
+            <span class="dates">Mar 2025<span class="arr">→</span>Present</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <ul>
+              <li>Driving product design across 5+ fintech products at Neokred.</li>
+              <li>Shaping privacy-first, compliant experiences for Blutic platforms (Consent Manager, Cookie Manager), simplifying consent and cookie management (DPDP-aligned).</li>
+              <li>Designed Neokred's Payment Gateway for seamless, scalable transaction experiences.</li>
+              <li>Driving design contributions across key verticals including Collectbot, Perkle, Profile X, and SoundBox &amp; POS devices.</li>
+              <li>Scaling design consistency through design system contributions and seamless design-to-development handoff.</li>
+              <li>Applying an AI-driven design approach to enhance workflows, decision-making, and overall product experience.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 02 -->
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[02]</span>
+            <span class="title">Assoc. Senior UI Designer at Lollypop Designs<span class="sub">Bangalore, India</span></span>
+            <span class="dates">Aug 2021<span class="arr">→</span>Sep 2024</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>Contributed to multiple high-impact projects, delivering innovative designs and achieving significant market outcomes through individual contributions and multidisciplinary collaboration.</p>
+            <p><span class="bold">Vodafone Idea</span> Telecom (via Lollypop):</p>
+            <ul>
+              <li>Played a pivotal role in designing and enhancing the Vi consumer app, serving over 50 million active users in India.</li>
+              <li>Performed research to inform design decisions, employing techniques such as stakeholder interviews, surveys and competitive analysis.</li>
+              <li>Designed and validated user interfaces, focusing on creating intuitive, efficient, and visually appealing user experiences. Created prototypes and conducted usability testing to gather feedback and iteratively refine designs.</li>
+              <li>Facilitated effective communication and coordination between design and development teams, providing detailed design specifications and assets.</li>
+              <li>Contributed to the development of Vodafone Idea design system.</li>
+              <li>Worked across various verticals of Vodafone Idea, including Games, Music, Shop, Vi Web, FLX, and VIBM.</li>
+            </ul>
+            <p><span class="bold">IndiaMART</span> Ecommerce (via Lollypop):</p>
+            <ul>
+              <li>Led the design and enhancement of the IndiaMART consumer app and website, catering to over 10 million active users in India.</li>
+              <li>Engaged with stakeholders to identify and prioritise user pain points and areas for improvement, implementing necessary enhancements.</li>
+              <li>Crafted and validated user interfaces with a focus on fostering intuitive, streamlined, and visually captivating user experiences.</li>
+            </ul>
+            <p><span class="bold">HDFC</span> Finance (via Lollypop):</p>
+            <ul>
+              <li>Initiated, executed and delivered the end-to-end redesign of the HDFC mutual fund application and website.</li>
+              <li>Collaborated with stakeholders to identify and prioritise user pain points and areas for improvement.</li>
+              <li>Designed and validated user interfaces, focusing on creating intuitive, efficient, and visually appealing user experiences.</li>
+              <li>Led the development of a comprehensive design system.</li>
+            </ul>
+            <div class="sub-divider"></div>
+            <p>Showcased strong critical thinking, problem-solving, facilitation, agile practices, and cross-functional team collaboration skills while continuously learning effective project management techniques.</p>
+            <div class="sub-divider"></div>
+            <p>Demonstrated exceptional written and verbal communication skills, as well as presentation abilities, to effectively deliver compelling pitches.</p>
+            <div class="sub-divider"></div>
+            <p>Recognised with client appreciations and awards.</p>
+          </div>
+        </article>
+
+        <!-- 03 -->
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[03]</span>
+            <span class="title">UI/UX Designer — Freelance<span class="sub">Cochin, India</span></span>
+            <span class="dates">Sep 2020<span class="arr">→</span>Jul 2021</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>As a freelancer, I managed the design of various mini projects, overseeing the entire process from initial concept to final delivery.</p>
+            <ul>
+              <li>Conducted client consultations to thoroughly understand their requirements.</li>
+              <li>Performed research to inform design decisions.</li>
+              <li>Analysed research data to develop user personas and journey maps, ensuring that design solutions were user-centric and aligned with market trends.</li>
+              <li>Designed and validated workflows, wireframes, and user interfaces, focusing on creating intuitive, efficient, and visually appealing user experiences.</li>
+            </ul>
+            <p>Before joining a new company, I always try to dedicate some time to working on freelance projects. This approach allows me to expand my skills and foster creativity beyond the confines of a conventional organizational structure while also affording me the opportunity to spend quality time on personal development and exploring my hobbies.</p>
+          </div>
+        </article>
+
+        <!-- 04 -->
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[04]</span>
+            <span class="title">UI/UX Designer at White Rabbit Group<span class="sub">Cochin, India</span></span>
+            <span class="dates">Sep 2019<span class="arr">→</span>Aug 2020</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>Worked on multiple professional projects, delivering innovative designs and achieving significant market outcomes through individual contributions and multidisciplinary collaboration.</p>
+            <p><span class="bold">Andes Gifts</span> Ecommerce (via White Rabbit):</p>
+            <ul>
+              <li>Initiated, executed and delivered the end-to-end designing of Andes Gifts website.</li>
+              <li>Conducted thorough analysis to understand project requirements.</li>
+              <li>Performed research to inform design decisions, employing techniques such as stakeholder interviews, surveys, and competitive analysis. Developed user personas and journey maps.</li>
+              <li>Designed and validated workflows, wireframes, and user interfaces utilising industry-standard tools like Sketch, Adobe Photoshop, Adobe Illustrator, Invision. Conducted usability testing to iteratively refine designs.</li>
+            </ul>
+            <p><span class="bold">IKONICK</span> Ecommerce (via White Rabbit):</p>
+            <ul>
+              <li>Contributed to the design and enhancement of the IKONICK consumer website.</li>
+              <li>Conducted thorough analysis to understand project requirements.</li>
+              <li>Engaged with stakeholders to identify and prioritise user pain points.</li>
+              <li>Crafted and validated user interfaces focused on intuitive, streamlined, and visually captivating user experiences.</li>
+            </ul>
+            <div class="sub-divider"></div>
+            <p>Demonstrated strong critical thinking, problem-solving, facilitation, agile practices, and cross-functional team collaboration skills.</p>
+            <div class="sub-divider"></div>
+            <p>Demonstrated exceptional written and verbal communication skills, as well as presentation abilities.</p>
+          </div>
+        </article>
+
+        <!-- 05 -->
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[05]</span>
+            <span class="title">UI/UX Designer at Cubet Techno Labs<span class="sub">Cochin, India</span></span>
+            <span class="dates">Jun 2017<span class="arr">→</span>Apr 2019</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>Initiated, executed and delivered the end-to-end design of multiple professional projects, delivering innovative designs through individual contributions and multidisciplinary collaboration. Conducted thorough analysis to understand project requirements, and performed research to inform design decisions. Designed and validated workflows, wireframes, and user interfaces focused on intuitive, efficient, and visually appealing user experiences.</p>
+            <div class="sub-divider"></div>
+            <p>Contributed to logo design and branding for a diverse range of projects. This involved conceptualizing and creating unique logos that effectively represented each client's brand identity.</p>
+            <div class="sub-divider"></div>
+            <p>Offered comprehensive graphic support for a variety of events, presentations, and marketing initiatives. Created event banners, promotional posters, presentation slides, brochures, and social media graphics. Worked closely with marketing teams to ensure brand consistency.</p>
+            <div class="sub-divider"></div>
+            <p>Demonstrated strong critical thinking, problem-solving, facilitation, and cross-functional team collaboration skills.</p>
+            <div class="sub-divider"></div>
+            <p>Demonstrated exceptional written and verbal communication skills.</p>
+          </div>
+        </article>
+
+        <!-- 06 -->
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[06]</span>
+            <span class="title">UI/UX Designer — Freelance<span class="sub">Cochin, India</span></span>
+            <span class="dates">Oct 2016<span class="arr">→</span>May 2017</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>As a freelancer, I managed the design of various mini projects, overseeing the entire process from initial concept to final delivery.</p>
+            <ul>
+              <li>Conducted client consultations to thoroughly understand their requirements.</li>
+              <li>Performed research to inform design decisions.</li>
+              <li>Analysed research data to develop user personas and journey maps.</li>
+              <li>Designed and validated workflows, wireframes, and user interfaces focused on intuitive, efficient, and visually appealing user experiences.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- 07 -->
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[07]</span>
+            <span class="title">UI/UX Designer at Vyooha Technologies<span class="sub">Cochin, India</span></span>
+            <span class="dates">Jun 2015<span class="arr">→</span>Sep 2016</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>Initiated, executed and delivered the end-to-end design of multiple professional projects. Conducted thorough analysis to understand project requirements, and performed research to inform design decisions. Designed and validated workflows, wireframes, and user interfaces.</p>
+            <div class="sub-divider"></div>
+            <p>Contributed to logo design and branding for a diverse range of projects.</p>
+            <div class="sub-divider"></div>
+            <p>Offered comprehensive graphic support for a variety of events, presentations, and marketing initiatives.</p>
+            <div class="sub-divider"></div>
+            <p>Demonstrated strong critical thinking and cross-functional team collaboration skills.</p>
+            <div class="sub-divider"></div>
+            <p>Demonstrated exceptional written and verbal communication skills.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Philosophy -->
+    <section class="quote" aria-label="Design philosophy" id="philosophy">
+      <div class="mark-q">✱ Philosophy / S.02</div>
+
+      <div class="quote-stack">
+        <article class="quote-slide is-active" data-i="01">
+          <blockquote>
+            As a UI/UX Designer my main goal was always to <span class="hl">understand the user</span> needs and give them the best experience to fulfil those needs.
+          </blockquote>
+          <div class="sig">— Ben Antony</div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Selected Clients -->
+    <section id="clients" class="clients">
+      <header class="section-head clients-head">
+        <div class="num">✱ S/03</div>
+        <h2 class="h"><span class="hl">Selected</span> Clients</h2>
+        <div class="meta"><span>08 Partners · Multiple Verticals</span></div>
+      </header>
+
+      <div class="list">
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[001]</span>
+            <span class="title">Vodafone Idea<span class="sub">Telecom · India</span></span>
+            <span class="dates">myvi.in ↗</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>Vodafone Idea is India's leading telecommunications service provider. The Company provides pan-India Voice and Data services across 2G, 3G and 4G platforms. Vodafone Idea has a subscriber base of 221.4 million, making it the third largest mobile telecommunications network in India and 11th largest in the world.</p>
+            <p><a href="https://www.myvi.in/" target="_blank" rel="noopener" style="color:var(--accent); border-bottom:1px solid var(--accent);">https://www.myvi.in/ ↗</a></p>
+          </div>
+        </article>
+
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[002]</span>
+            <span class="title">HDFC Bank<span class="sub">Finance · India</span></span>
+            <span class="dates">hdfcfund.com ↗</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>HDFC Bank Limited is a banking and financial services company. It is India's largest private sector bank by assets and world's 10th largest bank by market capitalisation as of 2021. HDFC Bank provides wholesale banking, retail banking, personal loans, mutual fund investment and credit cards, along with various digital products such as Payzapp and SmartBUY.</p>
+            <p><a href="https://www.hdfcfund.com/" target="_blank" rel="noopener" style="color:var(--accent); border-bottom:1px solid var(--accent);">https://www.hdfcfund.com/ ↗</a></p>
+          </div>
+        </article>
+
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[003]</span>
+            <span class="title">Blutic<span class="sub">Privacy Tech · India</span></span>
+            <span class="dates">blutic.club ↗</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>Blutic is a privacy technology and consent management platform that helps businesses manage website cookies, user consent, and regulatory compliance. It enables organizations to monitor trackers, customize consent banners, maintain audit-ready consent logs, generate cookie policies, and manage multi-domain governance. Blutic also supports developer integrations through APIs, SDKs, and automation tools for seamless implementation across digital products.</p>
+            <p><a href="https://www.blutic.club/" target="_blank" rel="noopener" style="color:var(--accent); border-bottom:1px solid var(--accent);">https://www.blutic.club/ ↗</a></p>
+          </div>
+        </article>
+
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[004]</span>
+            <span class="title">IndiaMART<span class="sub">E-commerce · India</span></span>
+            <span class="dates">indiamart.com ↗</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>IndiaMART is India's largest online B2B marketplace, connecting buyers with suppliers. With 60% market share of the online B2B Classified space in India, the channel focuses on providing a platform to Small &amp; Medium Enterprises (SMEs), Large Enterprises as well as Individuals. The company's (1999) mission is "to make doing business easy".</p>
+            <p><a href="https://www.indiamart.com/" target="_blank" rel="noopener" style="color:var(--accent); border-bottom:1px solid var(--accent);">https://www.indiamart.com/ ↗</a></p>
+          </div>
+        </article>
+
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[005]</span>
+            <span class="title">Byju's<span class="sub">EdTech · India</span></span>
+            <span class="dates">byjus.com ↗</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>Byju's is an Indian multinational education technology company that offers online learning programs, products, and services for students from kindergarten to high school. Byju's provides interactive learning materials, video lectures, and personalised test preparation modules to enhance students' performance and improve their understanding of various subjects.</p>
+            <p><a href="https://byjus.com/" target="_blank" rel="noopener" style="color:var(--accent); border-bottom:1px solid var(--accent);">https://byjus.com/ ↗</a></p>
+          </div>
+        </article>
+
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[006]</span>
+            <span class="title">IKONICK<span class="sub">E-commerce · USA</span></span>
+            <span class="dates">ikonick.com ↗</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>IKONICK is a Los Angeles brand putting a new spin on the business of inspiring others through art. IKONICK, founded in 2016, sells high-quality canvas prints online, with free shipping baked into every order. The company relies on appealing visuals that speak to an audience that's hungry for a good message.</p>
+            <p><a href="https://ikonick.com/" target="_blank" rel="noopener" style="color:var(--accent); border-bottom:1px solid var(--accent);">https://ikonick.com/ ↗</a></p>
+          </div>
+        </article>
+
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[007]</span>
+            <span class="title">YouKRAFT<span class="sub">Marketplace · India</span></span>
+            <span class="dates">youkraft.com ↗</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>YouKRAFT is an e-commerce marketplace for all interior and construction materials. It is a paradigm shift in the way you shop for Carpentry, Home Appliances, Furnishing &amp; Decor etc. online. Whether you're a Homeowner, Interior Designer or a Contractor, YouKRAFT ensures that you get the right material at the right price without having to sweat for it.</p>
+            <p><a href="https://youkraft.com/" target="_blank" rel="noopener" style="color:var(--accent); border-bottom:1px solid var(--accent);">https://youkraft.com/ ↗</a></p>
+          </div>
+        </article>
+
+        <article class="item" data-expandable aria-expanded="false">
+          <button class="item-head" type="button">
+            <span class="idx">[008]</span>
+            <span class="title">Andes Gifts<span class="sub">E-commerce · USA</span></span>
+            <span class="dates">andesgifts.com ↗</span>
+            <span class="toggle" aria-hidden="true"><span class="sign">+</span></span>
+          </button>
+          <div class="item-body">
+            <p>Andes Gifts aims to provide sustainable employment opportunities and form long-term business relationships with Aymara &amp; Quechua artisans throughout the Andes Mountains. Empowering Andean women through dignified work that allows them to earn a dependable income without having to leave their local village for larger cities.</p>
+            <p><a href="https://andesgifts.com/" target="_blank" rel="noopener" style="color:var(--accent); border-bottom:1px solid var(--accent);">https://andesgifts.com/ ↗</a></p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Closer -->
+    <section class="closer" aria-label="Contact">
+      <div class="eyebrow"><span class="num">✱ S/04</span> &nbsp; Thank You</div>
+      <h2 class="closer-title">
+        Let's Work<br/>
+        Together<span class="dot">.</span>
+      </h2>
+      <div class="mail">
+        <span class="k">Email →</span>
+        <a href="mailto:benjohnantony@gmail.com">benjohnantony@gmail.com</a>
+      </div>
+    </section>
+
+    <!-- Ticker -->
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track">
+        <span class="chunk">Product Design <span class="star">✱</span> UI/UX Design <span class="star">✱</span> Interaction Design <span class="star">✱</span> Prototyping <span class="star">✱</span> Design Systems <span class="star">✱</span> User Research <span class="star">✱</span> Wireframing <span class="star">✱</span> AI‑Driven Design <span class="star">✱</span></span>
+        <span class="chunk">Product Design <span class="star">✱</span> UI/UX Design <span class="star">✱</span> Interaction Design <span class="star">✱</span> Prototyping <span class="star">✱</span> Design Systems <span class="star">✱</span> User Research <span class="star">✱</span> Wireframing <span class="star">✱</span> AI‑Driven Design <span class="star">✱</span></span>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="foot">
+      <div>© 2026 Ben Antony &nbsp;/&nbsp; All Rights Reserved</div>
+      <div class="socials">
+        <a href="https://www.linkedin.com/in/ben-antony-080307108?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=android_app" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a href="https://dribbble.com/BenJohnAntony" target="_blank" rel="noopener">Dribbble ↗</a>
+        <a href="https://www.instagram.com/benjohnantony.designs/" target="_blank" rel="noopener">Instagram ↗</a>
+        <a href="https://www.behance.net/Benjohnantony" target="_blank" rel="noopener">Behance ↗</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Back to top -->
+  <a href="#top" class="totop" id="totop" aria-label="Back to top">↑</a>
+
+  <script>
+    /* Hero intro — stagger orange highlights on load */
+    (function(){
+      const hero = document.getElementById('hero');
+      if (!hero) return;
+      const hls = hero.querySelectorAll('.intro .hl');
+      hls.forEach((el, i) => el.style.setProperty('--d', (0.25 + i * 0.12) + 's'));
+      requestAnimationFrame(() => hero.classList.add('in-view'));
+    })();
+
+    /* Philosophy — staggered word reveal on scroll-into-view */
+    (function(){
+      const quote = document.querySelector('.quote');
+      if (!quote) return;
+      const slide = quote.querySelector('.quote-slide');
+      if (!slide) return;
+
+      // Wrap each blockquote's text into .word spans, preserving .hl structure.
+      function wrapWords(node) {
+        if (node.nodeType === Node.TEXT_NODE) {
+          const parts = node.textContent.split(/(\s+)/);
+          const frag = document.createDocumentFragment();
+          parts.forEach((p) => {
+            if (!p) return;
+            if (/^\s+$/.test(p)) {
+              frag.appendChild(document.createTextNode(' '));
+            } else {
+              const s = document.createElement('span');
+              s.className = 'word';
+              s.textContent = p;
+              frag.appendChild(s);
+            }
+          });
+          node.parentNode.replaceChild(frag, node);
+        } else if (node.nodeType === Node.ELEMENT_NODE) {
+          Array.from(node.childNodes).forEach(wrapWords);
+        }
+      }
+
+      const bq = slide.querySelector('blockquote');
+      if (bq) {
+        wrapWords(bq);
+        const words = bq.querySelectorAll('.word');
+        words.forEach((w, i) => w.style.setProperty('--d', (i * 0.035) + 's'));
+        const hl = bq.querySelector('.hl');
+        if (hl) hl.style.setProperty('--hl-delay', (words.length * 0.035 * 0.7) + 's');
+      }
+
+      // Hold the reveal until the section enters view.
+      slide.classList.remove('is-active');
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((e) => {
+            if (e.isIntersecting) {
+              slide.classList.add('is-active');
+              io.disconnect();
+            }
+          });
+        }, { threshold: 0.3 });
+        io.observe(quote);
+      } else {
+        slide.classList.add('is-active');
+      }
+    })();
+
+    /* Accordion */
+    document.querySelectorAll('[data-expandable]').forEach(function(item) {
+      const btn = item.querySelector('.item-head');
+      btn.addEventListener('click', function() {
+        const open = item.getAttribute('aria-expanded') === 'true';
+        item.setAttribute('aria-expanded', open ? 'false' : 'true');
+      });
+    });
+
+    /* ESC returns home */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') window.location.href = 'index.html';
+    });
+
+    /* Back-to-top visibility */
+    (function(){
+      const btn = document.getElementById('totop');
+      if (!btn) return;
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 600) btn.classList.add('on');
+        else btn.classList.remove('on');
+      }, { passive: true });
+    })();
+
+    /* Interactive cursor */
+    (function(){
+      if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
+
+      const dot = document.querySelector('.cursor-dot');
+      const ring = document.querySelector('.cursor-ring');
+      const label = ring && ring.querySelector('.label');
+      if (!dot || !ring) return;
+
+      let mx = -100, my = -100;
+      let rx = -100, ry = -100;
+      let visible = false;
+
+      window.addEventListener('mousemove', (e) => {
+        mx = e.clientX; my = e.clientY;
+        if (!visible) { rx = mx; ry = my; visible = true; }
+        dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0) translate(-50%,-50%)';
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => { dot.style.opacity = '0'; ring.style.opacity = '0'; });
+      window.addEventListener('mouseenter', () => { dot.style.opacity = ''; ring.style.opacity = ''; });
+      window.addEventListener('mousedown', () => document.body.classList.add('c-press'));
+      window.addEventListener('mouseup',   () => document.body.classList.remove('c-press'));
+
+      function loop(){
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+        ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0) translate(-50%,-50%)';
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+
+      document.querySelectorAll('a, button').forEach((el) => {
+        const isToggle = el.classList.contains('item-head');
+        el.addEventListener('mouseenter', () => {
+          if (isToggle) {
+            if (label) label.textContent = 'Expand ↕';
+            document.body.classList.add('c-block');
+          } else {
+            document.body.classList.add('c-link');
+          }
+        });
+        el.addEventListener('mouseleave', () => {
+          document.body.classList.remove('c-block');
+          document.body.classList.remove('c-link');
+        });
+      });
+    })();
+  </script>
+  <script src="assets/transition.js"></script>
+</body>
+</html>

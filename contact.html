@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact — Ben Antony</title>
+<meta name="description" content="Get in touch with Ben Antony — Product Designer." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg: #FF4D1F;
+    --ink: #0B0B0B;
+    --muted: rgba(11,11,12,0.55);
+    --cream: #F2EDE4;
+    --rule: rgba(11,11,12,0.22);
+    --grid: rgba(11,11,12,0.05);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--ink); color: var(--bg); }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+    mix-blend-mode: multiply;
+    opacity: 0.22;
+    pointer-events: none;
+    z-index: 100;
+  }
+  /* Grid background */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 96px 96px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Corner crosshairs */
+  .mark { position: fixed; width: 18px; height: 18px; z-index: 5; pointer-events: none; }
+  .mark::before, .mark::after { content: ''; position: absolute; background: var(--ink); opacity: 0.75; }
+  .mark::before { left: 50%; top: 0; bottom: 0; width: 1px; transform: translateX(-0.5px); }
+  .mark::after  { top: 50%; left: 0; right: 0; height: 1px; transform: translateY(-0.5px); }
+  .mark.tl { top: 24px; left: 24px; }
+  .mark.tr { top: 24px; right: 24px; }
+  .mark.bl { bottom: 24px; left: 24px; }
+  .mark.br { bottom: 24px; right: 24px; }
+
+  .page {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 56px 64px;
+    z-index: 1;
+  }
+
+  /* Top rail */
+  .rail {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .rail .l { text-align: left; }
+  .rail .l .home { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+  .rail .l .home:hover { color: var(--ink); }
+  .rail .c { text-align: center; }
+  .rail .r { text-align: right; display: inline-flex; gap: 16px; justify-content: flex-end; align-items: center; }
+  .rail b { color: var(--ink); font-weight: 700; letter-spacing: 0.06em; }
+  .rail .close {
+    display: inline-flex; align-items: center; gap: 10px;
+    color: var(--ink);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease, color 0.2s ease;
+  }
+  .rail .close:hover { border-color: var(--ink); }
+  .rail .close .x {
+    width: 12px; height: 12px; position: relative; display: inline-block;
+  }
+  .rail .close .x::before, .rail .close .x::after {
+    content: ''; position: absolute; top: 50%; left: 0; right: 0;
+    height: 1.5px; background: currentColor;
+  }
+  .rail .close .x::before { transform: rotate(45deg); }
+  .rail .close .x::after  { transform: rotate(-45deg); }
+  .rail .kbd {
+    display: inline-block;
+    padding: 2px 7px;
+    border: 1px solid var(--rule);
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+  }
+
+  /* Message */
+  .message {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+    max-width: 100%;
+  }
+  .message .line {
+    font-weight: 700;
+    font-size: clamp(40px, 7.4vw, 112px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    text-transform: none;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: normal;
+    hyphens: none;
+  }
+  .message a.email, .message .prefix { overflow-wrap: anywhere; }
+  .message .greet {
+    color: var(--ink);
+    opacity: 0;
+    transform: translateY(18px);
+    animation: rise 800ms cubic-bezier(.2,.7,.2,1) 120ms forwards;
+  }
+  .message .greet .comma { color: var(--cream); }
+  .message .email-line {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.25em 0.4em;
+    opacity: 0;
+    transform: translateY(18px);
+    animation: rise 800ms cubic-bezier(.2,.7,.2,1) 280ms forwards;
+  }
+  .message .prefix { color: var(--cream); }
+  .message a.email {
+    color: var(--ink);
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.22em;
+    transition: color 280ms cubic-bezier(.2,.7,.2,1);
+  }
+  .message a.email::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 4px;
+    background: var(--ink);
+    transform-origin: left;
+    transform: scaleX(0.18);
+    transition: transform 400ms cubic-bezier(.2,.7,.2,1),
+                background 280ms cubic-bezier(.2,.7,.2,1);
+  }
+  .message a.email:hover { color: #FFE600; }
+  .message a.email:hover::after { transform: scaleX(1); background: #FFE600; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Custom cursor */
+  @media (pointer: fine) {
+    html, body, a, button { cursor: none; }
+  }
+  .cursor-dot, .cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 200;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px;
+    background: var(--ink);
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+    transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease, background 0.2s ease;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--ink);
+    transform: translate3d(-100px, -100px, 0) translate(-50%, -50%);
+    transition: width 0.28s cubic-bezier(0.2,0.8,0.2,1),
+                height 0.28s cubic-bezier(0.2,0.8,0.2,1),
+                background 0.2s ease,
+                border-color 0.2s ease,
+                color 0.2s ease;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--ink);
+  }
+  .cursor-ring .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--bg);
+    opacity: 0;
+    transition: opacity 0.15s ease 0.05s;
+    white-space: nowrap;
+  }
+  body.c-link .cursor-ring {
+    width: 88px; height: 88px;
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  body.c-link .cursor-ring .label { opacity: 1; }
+  body.c-link .cursor-dot { opacity: 0; }
+  body.c-press .cursor-ring { width: 24px; height: 24px; }
+  @media (pointer: coarse) {
+    .cursor-dot, .cursor-ring { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .message .greet, .message .email-line { animation: none; opacity: 1; transform: none; }
+    .cursor-ring { transition: width 0.1s, height 0.1s, background 0.1s, border-color 0.1s; }
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .page { padding: 44px 28px; }
+  }
+  @media (max-width: 640px) {
+    .page { padding: 32px 20px; }
+    .rail { font-size: 10px; grid-template-columns: 1fr auto; }
+    .rail .c { display: none; }
+    .rail .kbd { display: none; }
+    .message .line { font-size: clamp(32px, 9vw, 64px); }
+    .message a.email { word-break: break-all; }
+    .mark { width: 12px; height: 12px; }
+    .mark.tl, .mark.tr { top: 12px; }
+    .mark.bl, .mark.br { bottom: 12px; }
+    .mark.tl, .mark.bl { left: 12px; }
+    .mark.tr, .mark.br { right: 12px; }
+  }
+</style>
+<script>try{if(sessionStorage.getItem('pt-light')){document.documentElement.classList.add('pt-light');sessionStorage.removeItem('pt-light');setTimeout(function(){document.documentElement.classList.remove('pt-light');},850);}}catch(e){}</script>
+<link rel="stylesheet" href="assets/transition.css" />
+</head>
+<body>
+  <div class="page-transition intro theme-light" aria-hidden="true"></div>
+  <div class="cursor-dot" aria-hidden="true"></div>
+  <div class="cursor-ring" aria-hidden="true"><span class="label">Send ↗</span></div>
+
+  <span class="mark tl" aria-hidden="true"></span>
+  <span class="mark tr" aria-hidden="true"></span>
+  <span class="mark bl" aria-hidden="true"></span>
+  <span class="mark br" aria-hidden="true"></span>
+
+  <main class="page">
+    <!-- Top rail -->
+    <header class="rail">
+      <div class="l"><b>Ben Antony</b> &nbsp;/&nbsp; <a class="home" href="index.html">Portfolio</a></div>
+      <div class="c">Index 04 / 04 &nbsp;—&nbsp; Contact</div>
+      <div class="r">
+        <span class="kbd">ESC</span>
+        <a href="index.html" class="close" aria-label="Close and return to home">
+          <span>Close</span>
+          <span class="x" aria-hidden="true"></span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Message -->
+    <section class="message" aria-label="Contact message">
+      <span class="line greet">Let's Connect<span class="comma">,</span></span>
+      <span class="line email-line">
+        <span class="prefix">Email at</span>
+        <a class="email" href="mailto:benjohnantony@gmail.com">benjohnantony@gmail.com</a>
+      </span>
+    </section>
+  </main>
+
+  <script>
+    /* ESC returns home */
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') window.location.href = 'index.html';
+    });
+
+    /* Interactive cursor */
+    (function(){
+      if (!window.matchMedia || !window.matchMedia('(pointer: fine)').matches) return;
+
+      const dot = document.querySelector('.cursor-dot');
+      const ring = document.querySelector('.cursor-ring');
+      const label = ring && ring.querySelector('.label');
+      if (!dot || !ring) return;
+
+      let mx = -100, my = -100;
+      let rx = -100, ry = -100;
+      let visible = false;
+
+      window.addEventListener('mousemove', (e) => {
+        mx = e.clientX; my = e.clientY;
+        if (!visible) { rx = mx; ry = my; visible = true; }
+        dot.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0) translate(-50%,-50%)';
+      }, { passive: true });
+
+      window.addEventListener('mouseleave', () => {
+        dot.style.opacity = '0'; ring.style.opacity = '0';
+      });
+      window.addEventListener('mouseenter', () => {
+        dot.style.opacity = ''; ring.style.opacity = '';
+      });
+
+      window.addEventListener('mousedown', () => document.body.classList.add('c-press'));
+      window.addEventListener('mouseup',   () => document.body.classList.remove('c-press'));
+
+      function loop(){
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+        ring.style.transform = 'translate3d(' + rx + 'px,' + ry + 'px,0) translate(-50%,-50%)';
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+
+      const labelMap = new Map([
+        ['a.email',  'Send ↗'],
+        ['a.close',  'Close ↩'],
+      ]);
+
+      document.querySelectorAll('a, button').forEach((el) => {
+        let labelText = 'Open ↗';
+        if (el.classList.contains('email')) labelText = 'Send ↗';
+        else if (el.classList.contains('close')) labelText = 'Close ↩';
+
+        el.addEventListener('mouseenter', () => {
+          if (label) label.textContent = labelText;
+          document.body.classList.add('c-link');
+        });
+        el.addEventListener('mouseleave', () => {
+          document.body.classList.remove('c-link');
+        });
+      });
+    })();
+  </script>
+  <script src="assets/transition.js"></script>
+</body>
+</html>

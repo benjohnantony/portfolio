@@ -1,0 +1,44 @@
+/* Page transition — orange slab.
+   On every page load: slab starts covering, slides up off-screen (reveal).
+   On link click (handled by transition.js): slab slides up from bottom to cover. */
+
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  pointer-events: none;
+  background: #FF4D1F;
+  transform: translateY(101%);
+  will-change: transform;
+  overflow: hidden;
+}
+
+/* Per-page override — contact uses an orange background, so the slab swaps
+   to the brand cream/white for contrast. */
+.page-transition.theme-light,
+html.pt-light .page-transition { background: #F2EDE4; }
+
+/* Reveal — runs immediately on page load */
+.page-transition.intro {
+  transform: translateY(0);
+  animation: page-reveal 800ms cubic-bezier(0.64, 0, 0.78, 0) forwards;
+}
+
+@keyframes page-reveal {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-101%); }
+}
+
+/* Cover — applied via JS when leaving the page */
+.page-transition.outro {
+  animation: page-cover 650ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes page-cover {
+  0%   { transform: translateY(101%); }
+  100% { transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-transition { display: none; }
+}
