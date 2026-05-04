@@ -197,7 +197,7 @@
   .proto-frame {
     position: relative;
     width: 100%;
-    aspect-ratio: var(--proto-aspect, 9 / 16);
+    aspect-ratio: var(--proto-aspect, 16 / 10);
     background: #0a0a0a;
     border: 1px solid var(--rule);
     overflow: hidden;
@@ -341,7 +341,7 @@
     .hero .title { font-size: clamp(40px, 14vw, 96px); }
     .proto-wrap { padding: 36px 0 56px; }
     .proto-head { flex-wrap: wrap; gap: 12px; }
-    .proto-frame { aspect-ratio: 9 / 16; }
+    .proto-frame { aspect-ratio: 4 / 3; }
     .next-link { padding: 36px 0 44px; }
     .next-title { font-size: clamp(36px, 13vw, 80px); }
     .next-arrow { font-size: clamp(24px, 7vw, 40px); }
@@ -413,8 +413,6 @@
           <div class="sub">Drop the Figma prototype URL into the <code style="font-family:inherit;color:var(--ink);">FIGMA_URL</code> constant near the bottom of this file.</div>
         </div>
       </div>
-    </section>
-
     <section class="next-case" aria-label="Next case study">
       <a href="case-nio.html" class="next-link">
         <div class="next-meta">
@@ -460,7 +458,7 @@
     /* Paste your Figma prototype link below — accepts either figma.com/proto or embed.figma.com URLs.
        Note: scaling=min-zoom keeps the prototype within the frame (no internal scroll),
        so page scroll passes the iframe naturally. */
-    const FIGMA_URL = "";
+    const FIGMA_URL = "https://www.figma.com/proto/75kvMOdQPjDohv5BrtXfXx/Link?node-id=2152-10910&viewport=-1228%2C-2371%2C0.27&t=3C13OJNhvlm3A2Xc-8&scaling=scale-down-width&content-scaling=fixed&page-id=0%3A1&hotspot-hints=0&disable-default-keyboard-nav=1&hide-ui=1";
 
     (function(){
       const frame = document.getElementById('proto-frame');
